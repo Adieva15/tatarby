@@ -17,6 +17,8 @@ class User(Base):
     total_xp = Column(Integer, default=0)
     total_lessons = Column(Integer, default=0)
     total_words_learned = Column(Integer, default=0)
+    language_level = Column(Integer, nullable=True)
+    level_determined_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     activities = relationship("DailyActivity", back_populates="user", cascade="all, delete-orphan")

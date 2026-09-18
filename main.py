@@ -1,16 +1,27 @@
-from fastapi import FastAPI, Depends, HTTPException, Response, Cookie
+from fastapi import FastAPI, Depends, UploadFile, File, HTTPException, Response, Cookie
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from sqlalchemy.orm import Session
 from redis import Redis
-from datetime import date, timedelta
+from sqlalchemy import func
+from pathlib import Path
+from datetime import date, timedelta, datetime
 import uuid
+from utils.level import level_description
+from utils.ocr import ocr_image, OcrResponse
 from database.config import getdb, create_tables, get_redis
 from database.models.user import User, RegUsersModels, LoginUserModels
 from database.models.dailyActivity import DailyActivity
+from database.models.questions import Question, QuestionOut, LevelTestSubmit
 from utils.pass_and_jwt import hashed_password, verify_password, decode_access_token, create_access_token, create_refresh_token, verify_refresh_token, get_current_user
 
 app = FastAPI()
 create_tables()
+
+UPLOAD_DIR = Path(__file__).parent.parent / "static" / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+ALLOWED_TYPES = {"image/jpeg", "image/png", "image/webp", "image/heic", "application/pdf"}
+MAX_SIZE = 20 * 1024 * 1024
 
 @app.post("/api/register")
 def registration(form: RegUsersModels, db: Session = Depends(getdb)):
@@ -159,3 +170,114 @@ def get_stats(user_id: int = Depends(get_current_user), db: Session = Depends(ge
         "xp_to_next_level": 100 - (user.total_xp % 100),
         "activity": activity,
     }
+
+@app.get("/api/me/level")
+def get_my_level(user_id: int = Depends(get_current_user), db: Session = Depends(getdb)):
+    user = db.query(User).filter(User.id == user_id).first()
+    return {
+        "language_level": user.language_level,
+        "needs_test": user.language_level is None,
+    }
+
+@app.get("/api/level-test/questions", response_model=list[QuestionOut])
+def get_level_test_questions(
+    user_id: int = Depends(get_current_user),
+    db: Session = Depends(getdb),
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user.language_level is not None:
+        raise HTTPException(400, "Уровень уже определён")
+
+    questions = []
+    for difficulty in range(1, 6):
+        q = (
+            db.query(Question)
+            .filter(Question.difficulty == difficulty)
+            .order_by(func.random())
+            .first()
+        )
+        if q:
+            questions.append(q)
+
+    if len(questions) < 5:
+        raise HTTPException(500, "В БД не хватает вопросов (нужно по одному на уровень 1..5)")
+
+    return questions
+
+@app.post("/api/level-test/submit")
+def submit_level_test(
+    payload: LevelTestSubmit,
+    user_id: int = Depends(get_current_user),
+    db: Session = Depends(getdb),
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user.language_level is not None:
+        raise HTTPException(400, "Уровень уже определён")
+
+    if not payload.answers:
+        raise HTTPException(400, "Пустой список ответов")
+
+    question_ids = [int(qid) for qid in payload.answers.keys()]
+    questions = db.query(Question).filter(Question.id.in_(question_ids)).all()
+    questions_by_id = {q.id: q for q in questions}
+
+    correct = 0
+    for qid, chosen in payload.answers.items():
+        q = questions_by_id.get(int(qid))
+        if q and chosen == q.correct_option:
+            correct += 1
+
+    total = len(payload.answers)
+
+    level = max(1, correct)
+
+    user.language_level = level
+    user.level_determined_at = datetime.utcnow()
+    db.commit()
+
+    return {
+        "correct": correct,
+        "total": total,
+        "level": level,
+        "message": level_description(level),
+    }
+
+
+@app.post("/api/me/level/reset")
+def reset_level(user_id: int = Depends(get_current_user), db: Session = Depends(getdb)):
+    user = db.query(User).filter(User.id == user_id).first()
+    user.language_level = None
+    user.level_determined_at = None
+    db.commit()
+    return {"status": "ok"}
+
+
+#начинание перевода с фотки и основной части с изображемнием и адаптированным текстом
+"""@app.post("/translate", response_model=OcrResponse)
+def ocr_endpoint(
+    file: UploadFile = File(...),
+    user_id: str = Depends(get_current_user),
+):
+    # 1. Проверки
+    if file.content_type not in ALLOWED_TYPES:
+        raise HTTPException(415, f"Неподдерживаемый тип: {file.content_type}")
+
+    content = file.file.read()
+    size = len(content)
+    if size > MAX_SIZE:
+        raise HTTPException(413, "Файл слишком большой")
+    if size == 0:
+        raise HTTPException(400, "Пустой файл")
+
+    # 2. Временное сохранение на диск — OCR работает с путём
+    ext = Path(file.filename or "").suffix.lower() or ".bin"
+    saved_path = UPLOAD_DIR / f"{uuid.uuid4().hex}{ext}"
+    saved_path.write_bytes(content)
+
+    # 3. Вызов OCR 
+    try:
+        text = ocr_image(str(saved_path))   
+    except Exception as e:
+        raise HTTPException(500, f"Ошибка OCR: {e}")
+
+    """
