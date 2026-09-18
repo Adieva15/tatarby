@@ -66,9 +66,14 @@ def verify_refresh_token(token: str) -> dict | None:
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
+def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload["sub"]
+        user_id = payload.get('sub')
+        if not user_id:
+            print(1)
+            raise HTTPException(status_code=401, detail="Невалидный токен")
+        return user_id
     except jwt.PyJWTError:
-        return HTTPException(status_code=401, detail="Невалидный токен")
+        print(1)
+        raise HTTPException(status_code=401, detail="Невалидный токен")

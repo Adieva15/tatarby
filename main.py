@@ -2,10 +2,12 @@ from fastapi import FastAPI, Depends, HTTPException, Response, Cookie
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from sqlalchemy.orm import Session
 from redis import Redis
+from datetime import date, timedelta
 import uuid
 from database.config import getdb, create_tables, get_redis
 from database.models.user import User, RegUsersModels, LoginUserModels
-from utils import hashed_password, verify_password, decode_access_token, create_access_token, create_refresh_token, verify_refresh_token, get_current_user
+from database.models.dailyActivity import DailyActivity
+from utils.pass_and_jwt import hashed_password, verify_password, decode_access_token, create_access_token, create_refresh_token, verify_refresh_token, get_current_user
 
 app = FastAPI()
 create_tables()
@@ -129,3 +131,31 @@ def logout(response: Response, refresh_token: str | None = Cookie(default=None, 
     )
     
     return {"status": "success", "message": "Logged out successfully"}
+
+
+
+@app.get("/api/me/profile")
+def get_stats(user_id: int = Depends(get_current_user), db: Session = Depends(getdb)):
+    year_ago = date.today() - timedelta(days=364)
+    activ_year = db.query(DailyActivity).filter(DailyActivity.user_id == user_id, DailyActivity.date >= year_ago).all()
+    user = db.query(User).filter(User.id == user_id).first()
+
+    by_date = {d: xp for d, xp in activ_year}
+
+    activity = []
+    for i in range(365):
+        d = year_ago + timedelta(days=i)
+        activity.append({
+            "date": d.isoformat(),
+            "xp": by_date.get(d, 0),
+        })
+    level = user.total_xp // 100 + 1
+    return {"current_streak": user.current_streak,
+        "longest_streak": user.longest_streak,
+        "total_xp": user.total_xp,
+        "total_lessons": user.total_lessons,
+        "total_words": user.total_words_learned,
+        "level": level,
+        "xp_to_next_level": 100 - (user.total_xp % 100),
+        "activity": activity,
+    }
