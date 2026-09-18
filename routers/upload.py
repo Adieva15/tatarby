@@ -44,9 +44,9 @@ def ocr_endpoint(
     saved_path = UPLOAD_DIR / f"{uuid.uuid4().hex}{ext}"
     saved_path.write_bytes(content)
 
-    # 3. Вызов OCR от Димы
+    # 3. Вызов OCR 
     try:
-        text = recognize(str(saved_path))   # ← если async: `await recognize(...)`
+        text = recognize(str(saved_path))   
     except Exception as e:
         raise HTTPException(500, f"Ошибка OCR: {e}")
 
