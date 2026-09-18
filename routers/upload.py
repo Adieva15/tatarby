@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from utils import get_current_user
 
 
-# from services.ocr import recognize
+# from 
 
 
 router = APIRouter(prefix="/api", tags=["ocr"])
