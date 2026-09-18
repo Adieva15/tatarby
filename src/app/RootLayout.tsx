@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { BookOpen, User } from "lucide-react";
 import { useUserStore } from "@/entities/user/store";
+import { Button } from "@/shared/ui";
 
 export function RootLayout() {
   const { pathname } = useLocation();
@@ -16,13 +17,21 @@ export function RootLayout() {
           </Link>
 
           <nav className="flex items-center gap-2">
-            {pathname !== "/profile" && (
-              <Link
-                to="/profile"
-                className="flex items-center gap-2 px-3 h-10 rounded-xl hover:bg-slate-100"
-              >
-                <User className="w-4 h-4" />
-                <span className="text-sm">{user?.name ?? "Профиль"}</span>
+            {user ? (
+              pathname !== "/profile" && (
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 pl-1 pr-3 h-10 rounded-full border border-slate-200 hover:border-brand-300 hover:bg-brand-50 transition"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm font-semibold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="text-sm font-medium">{user.name}</span>
+                </Link>
+              )
+            ) : (
+              <Link to="/login">
+                <Button size="sm">Войти / Зарегистрироваться</Button>
               </Link>
             )}
           </nav>
@@ -34,7 +43,7 @@ export function RootLayout() {
       </main>
 
       <footer className="text-center text-xs text-slate-500 py-6">
-        © {new Date().getFullYear()} Адаптив уку
+        © {new Date().getFullYear()} Название проекта
       </footer>
     </div>
   );
