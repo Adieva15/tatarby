@@ -8,10 +8,13 @@ from database.models.user import User, RegUsersModels, LoginUserModels
 from utils import hashed_password, verify_password, decode_access_token, create_access_token, create_refresh_token, verify_refresh_token, get_current_user
 
 from routers.upload import router as upload_router
+from routers.translate import router as translate_router
+
 
 app = FastAPI()
 create_tables()
 app.include_router(upload_router)
+app.include_router(translate_router)
 
 
 @app.post("/api/register")
