@@ -7,8 +7,12 @@ from database.config import getdb, create_tables, get_redis
 from database.models.user import User, RegUsersModels, LoginUserModels
 from utils import hashed_password, verify_password, decode_access_token, create_access_token, create_refresh_token, verify_refresh_token, get_current_user
 
+from routers.upload import router as upload_router
+
 app = FastAPI()
 create_tables()
+app.include_router(upload_router)
+
 
 @app.post("/api/register")
 def registration(form: RegUsersModels, db: Session = Depends(getdb)):

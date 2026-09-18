@@ -1,0 +1,7 @@
+fastapi
+pydantic
+PyJWT
+python-dotenv
+python_bcrypt
+redis
+python-multipart
