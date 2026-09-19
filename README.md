@@ -9,23 +9,23 @@
 
 **Главный экран**
 
-![Главный экран](docs/home.png)
+![Главный экран](docs/home.jpg)
 
 **Чтение текста**
 
-![Чтение](docs/reading.png)
+![Чтение](docs/reading.jpg)
 
 **Карточки для запоминания слов**
 
-![Карточки](docs/flashcards.png)
+![Карточки](docs/flashcards.jpg)
 
 **Профиль пользователя**
 
-![Профиль](docs/profile.png)
+![Профиль](docs/profile.jpg)
 
 **Аналитика и достижения**
 
-![Аналитика](docs/analytics.png)
+![Профиль, продолжение](docs/analytics.jpg)
 
 ## О проекте
 
