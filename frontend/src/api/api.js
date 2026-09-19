@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: 'http://backend:8000',
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,   // ← ОБЯЗАТЕЛЬНО для refresh-куки
 });
@@ -24,7 +24,7 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          'http://127.0.0.1:8000/auth/refresh',
+          'http://backend:8000/auth/refresh',
           {},
           { withCredentials: true }
         );
