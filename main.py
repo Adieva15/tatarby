@@ -6,11 +6,13 @@ from sqlalchemy import func
 from pathlib import Path
 from datetime import date, timedelta, datetime
 import uuid
+from utils.translate import translate
 from utils.level import level_description
 from utils.ocr import ocr_image, OcrResponse
 from database.config import getdb, create_tables, get_redis
 from database.models.user import User, RegUsersModels, LoginUserModels
 from database.models.dailyActivity import DailyActivity
+from chat.openai import client
 from database.models.questions import Question, QuestionOut, LevelTestSubmit
 from utils.pass_and_jwt import hashed_password, verify_password, decode_access_token, create_access_token, create_refresh_token, verify_refresh_token, get_current_user
 
@@ -253,11 +255,13 @@ def reset_level(user_id: int = Depends(get_current_user), db: Session = Depends(
 
 
 #начинание перевода с фотки и основной части с изображемнием и адаптированным текстом
-@app.post("/translate", response_model=OcrResponse)
+@app.post("api/translate-and-adapt-text", response_model=OcrResponse)
 def ocr_endpoint(
     file: UploadFile = File(...),
     user_id: str = Depends(get_current_user),
+    db: Session = Depends(getdb)
 ):
+    user = db.query(User).filter(User.id == user_id).first()
     # 1. Проверки
     if file.content_type not in ALLOWED_TYPES:
         raise HTTPException(415, f"Неподдерживаемый тип: {file.content_type}")
@@ -276,9 +280,11 @@ def ocr_endpoint(
 
     # 3. Вызов OCR 
     try:
-        text = ocr_image(str(saved_path))   
+        text_tat = ocr_image(str(saved_path))   
     except Exception as e:
         raise HTTPException(500, f"Ошибка OCR: {e}")
-    
 
-    
+    text_ru = translate(text_tat)
+    ans = client.validate_task(text_ru, text_tat, user.language_level)
+    result_text = ans["choices"][0]["message"]["content"]
+    return {"text": result_text}
