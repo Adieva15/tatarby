@@ -1,11 +1,12 @@
 /* ===== Общая страница обучения ===== */
 .learn-page {
   min-height: 100vh;
-  background: #F5F1E8;
+  background: transparent;
   font-family: 'Segoe UI', system-ui, sans-serif;
   padding-bottom: 60px;
 }
 
+/* ===== Шапка ===== */
 .learn-header {
   background: #fff;
   padding: 16px 40px;
@@ -55,15 +56,14 @@
   color: #009B77;
 }
 
-/* Прогресс-бар */
+/* ===== Прогресс-бар ===== */
 .learn-progress-bar {
   height: 6px;
   background: #E8E2D5;
-  margin: 0 auto;
+  margin: 24px auto 0;
   max-width: 700px;
   border-radius: 3px;
   overflow: hidden;
-  margin-top: 24px;
 }
 
 .learn-progress-fill {
@@ -236,6 +236,52 @@
   border: 1px solid #E8E2D5;
 }
 
+/* Уровни 1..5 */
+.read-levels {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #F0EBE0;
+  flex-wrap: wrap;
+}
+
+.read-levels-label {
+  font-size: 13px;
+  color: #7A7062;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 8px;
+}
+
+.read-level-btn {
+  padding: 8px 20px;
+  background: #fff;
+  border: 1.5px solid #E0D8C5;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  color: #7A7062;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  min-width: 44px;
+}
+
+.read-level-btn:hover {
+  border-color: #009B77;
+  color: #009B77;
+}
+
+.read-level-btn.active {
+  background: #009B77;
+  color: #fff;
+  border-color: #009B77;
+}
+
 .read-meta {
   display: flex;
   align-items: center;
@@ -268,57 +314,157 @@
   border-radius: 10px;
 }
 
-.read-translation {
+/* Прогресс чтения */
+.read-progress {
+  height: 4px;
+  background: #E8E2D5;
+  border-radius: 2px;
+  overflow: hidden;
   margin-bottom: 24px;
-  cursor: pointer;
 }
 
-.read-translation summary {
-  color: #009B77;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 8px 0;
+.read-progress-fill {
+  height: 100%;
+  background: #D4A017;
+  border-radius: 2px;
+  transition: width 0.4s ease;
 }
 
-.read-translation p {
-  padding: 12px 16px;
-  background: #F5F1E8;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #4A4438;
-  line-height: 1.6;
+/* Предложения */
+.read-sentence {
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #FAFAF7;
+  border-left: 3px solid #009B77;
+  animation: fadeIn 0.3s ease;
 }
 
-.read-words {
-  margin-bottom: 28px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.read-words h3 {
+.read-sentence-tat {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #1A1A1A;
+}
+
+.read-sentence-rus {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #E0D8C5;
   font-size: 14px;
   color: #7A7062;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 12px;
+  font-style: italic;
 }
 
-.read-words-list {
+/* Слова */
+.read-word {
+  cursor: pointer;
+  padding: 1px 2px;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.read-word:hover {
+  background: #FFF3C4;
+}
+
+.read-word.known {
+  color: #009B77;
+  font-weight: 600;
+}
+
+.read-word.new {
+  background: #FFF8E1;
+  border-bottom: 1px dashed #D4A017;
+}
+
+.read-word.new:hover {
+  background: #FFE9A8;
+}
+
+/* Размер шрифта по уровню 1..5 */
+.read-content-1 .read-sentence-tat { font-size: 22px; line-height: 2.2; }
+.read-content-2 .read-sentence-tat { font-size: 20px; line-height: 2; }
+.read-content-3 .read-sentence-tat { font-size: 18px; line-height: 1.8; }
+.read-content-4 .read-sentence-tat { font-size: 17px; line-height: 1.7; }
+.read-content-5 .read-sentence-tat { font-size: 16px; line-height: 1.6; }
+
+/* Управление */
+.read-controls {
   display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 24px;
   flex-wrap: wrap;
-  gap: 8px;
 }
 
-.read-word-tag {
-  background: #F5F1E8;
-  color: #1A1A1A;
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-size: 14px;
-  border: 1px solid #E8E2D5;
+.read-complete {
+  margin-top: 24px;
+  padding: 24px;
+  background: #D9F5E8;
+  border-radius: 12px;
+  text-align: center;
 }
 
-.read-actions {
+.read-complete p {
+  font-size: 15px;
+  color: #007A5E;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Тултип */
+.read-tooltip-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
+  align-items: center;
   justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+.read-tooltip {
+  background: #fff;
+  padding: 28px 36px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+  min-width: 240px;
+}
+
+.read-tooltip-word {
+  font-size: 26px;
+  font-weight: 700;
+  color: #009B77;
+  margin-bottom: 8px;
+}
+
+.read-tooltip-translation {
+  font-size: 18px;
+  color: #1A1A1A;
+}
+
+.read-tooltip-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #9A9080;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.read-tooltip-close:hover {
+  color: #1A1A1A;
 }
 
 /* ===== Карточки ===== */
@@ -525,7 +671,6 @@
   flex-wrap: wrap;
 }
 
-/* Результат сочинения */
 .essay-result {
   text-align: center;
 }
@@ -599,47 +744,10 @@
   .flash-card-text { font-size: 28px; }
   .result-score,
   .essay-score { font-size: 48px; }
-}
-/* ===== Уровни в чтении ===== */
-.read-levels {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #F0EBE0;
-}
-
-.read-levels-label {
-  font-size: 13px;
-  color: #7A7062;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-right: 8px;
-}
-
-.read-level-btn {
-  padding: 8px 20px;
-  background: #fff;
-  border: 1.5px solid #E0D8C5;
-  border-radius: 20px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 13px;
-  color: #7A7062;
-  letter-spacing: 0.5px;
-  transition: all 0.2s;
-}
-
-.read-level-btn:hover {
-  border-color: #009B77;
-  color: #009B77;
-}
-
-.read-level-btn.active {
-  background: #009B77;
-  color: #fff;
-  border-color: #009B77;
+  .read-levels { gap: 8px; }
+  .read-level-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    min-width: 38px;
+  }
 }
