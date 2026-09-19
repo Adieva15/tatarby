@@ -1,4 +1,4 @@
-# core/services/adapt_service.py
+ 
 import hashlib, json, logging
 from typing import Optional
 
@@ -12,10 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class AdaptService:
-    """
-    Агент адаптации. Оркестрирует: валидация → кэш → LLM → проверка → retry → fallback.
-    """
-
+ 
     def __init__(
         self,
         llm: LLMClient,

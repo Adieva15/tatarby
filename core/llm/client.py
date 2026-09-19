@@ -1,4 +1,4 @@
-# core/llm/client.py
+
 import httpx, json, logging
 from core.schemas import AdaptRequest, VocabNote
 from core.prompts.adapt_v1 import build_adapt_prompt

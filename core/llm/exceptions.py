@@ -1,5 +1,4 @@
-# core/llm/exceptions.py
-
+ 
 class LLMError(Exception):
     """Базовое исключение для всего, что связано с LLM."""
     pass

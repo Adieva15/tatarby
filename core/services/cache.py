@@ -1,4 +1,4 @@
-# core/services/cache.py
+
 from typing import Optional, Protocol
 
 class CacheBackend(Protocol):

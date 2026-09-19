@@ -1,4 +1,4 @@
-# core/services/level_checker.py
+
 import re
 
 LEVEL_LIMITS = {
@@ -9,7 +9,7 @@ LEVEL_LIMITS = {
     "C1": {"max_sent": 40, "max_word": 12.0, "max_rare": 0.80},
 }
 
-# Заглушки — замените на реальные частотные словари
+# Заглушки
 FREQ = {
     "A1": set(),  # топ-1000
     "A2": set(),  # топ-2000

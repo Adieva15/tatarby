@@ -8,7 +8,7 @@ Style = Literal["simple", "poetic", "prose", "academic"]
 
 
 class UserProfile(BaseModel):
-    """Профиль пользователя — приходит с фронта или из БД."""
+    """Профиль пользователя"""
     user_id: str
     age_group: AgeGroup
     language_level: CEFRLevel
@@ -17,7 +17,7 @@ class UserProfile(BaseModel):
 
 
 class AdaptRequest(BaseModel):
-    """Полный запрос на адаптацию — то, что склеивается в роутере."""
+    """Полный запрос на адаптацию """
     profile: UserProfile
     russian_text: str = Field(..., min_length=1, max_length=2000)
 
@@ -29,7 +29,7 @@ class VocabNote(BaseModel):
 
 
 class AdaptResponse(BaseModel):
-    """Ответ агента — то, что уходит на фронт."""
+    """Ответ агента"""
     adapted_text: str
     difficulty_score: float = Field(ge=0.0, le=1.0)
     vocabulary_notes: list[VocabNote] = Field(default_factory=list)
