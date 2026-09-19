@@ -1,34 +1,28 @@
+import httpx
+import os
+from dotenv import load_dotenv
 
-from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
+load_dotenv()
 
-from utils import get_current_user
-from services.translate import translate
-
-
-router = APIRouter(prefix="/api", tags=["translate"])
+MT_URL = os.getenv("MT")
 
 
-class TranslateRequest(BaseModel):
-    text: str
+def translate(text: str, direction: str = "tat2rus") -> str:
+    if not text or not text.strip():
+        return ""
 
+    with httpx.Client(timeout=30) as client:
+        r = client.get(
+            f"{MT_URL}",
+            params={"lang": direction, "text": text},
+        )
+        r.raise_for_status()
+        data = r.json()
 
-class TranslateResponse(BaseModel):
-    original: str
-    translated: str
-
-
-@router.post("/translate", response_model=TranslateResponse)
-async def translate_endpoint(
-    req: TranslateRequest,
-    user_id: str = Depends(get_current_user),
-):
-    if not req.text or not req.text.strip():
-        raise HTTPException(400, "Пустой текст")
-
-    try:
-        translated = await translate(req.text)
-    except Exception as e:
-        raise HTTPException(500, f"Ошибка перевода: {e}")
-
-    return TranslateResponse(original=req.text, translated=translated)
+        # TatSoft отдаёт либо строку, либо объект
+        if isinstance(data, str):
+            return data
+        if isinstance(data, dict):
+            # На случай, если структура изменится
+            return data.get("translation") or data.get("text") or str(data)
+        return str(data)
