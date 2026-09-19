@@ -13,7 +13,7 @@ export function RootLayout() {
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-semibold text-brand-700">
             <BookOpen className="w-5 h-5" />
-            Адаптив уку
+            Название проекта
           </Link>
 
           <nav className="flex items-center gap-2">
