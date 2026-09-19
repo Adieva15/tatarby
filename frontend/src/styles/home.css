@@ -321,3 +321,25 @@
   }
   .profile-info h1 { font-size: 20px; }
 }
+/* ===== Модули обучения ===== */
+.home-modules {
+  margin-bottom: 32px;
+}
+
+.home-modules-title {
+  font-size: 18px;
+  color: #1A1A1A;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.home-card-tag {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 10px;
+  background: #D9F5E8;
+  color: #009B77;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}

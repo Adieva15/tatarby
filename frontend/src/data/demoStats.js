@@ -143,3 +143,94 @@ export const MONTHS_RU = [
   'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
   'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'
 ];
+// ===== ДАННЫЕ ДЛЯ ЧТЕНИЯ И ВОПРОСОВ =====
+
+export const demoReadingText = {
+  id: 1,
+  title: 'Ананары ул өйгә кайтты',
+  level: 'A2',
+  content: `Ананары ул өйгә кайтты һәм әнисенә булышты. Ул иртә белән торды, идән юды, чәй ясады. Аннары ул китап укыды һәм яңа сүзләр өйрәнде. Кич белән ул дуслары белән урамда уйнады.`,
+  newWords: ['өй', 'әни', 'булышты', 'иртә', 'китап', 'дуслар', 'урам'],
+  translation: 'Ананар вернулся домой и помог маме. Он встал рано утром, вымыл пол, заварил чай. Затем он читал книгу и учил новые слова. Вечером он играл с друзьями на улице.',
+};
+
+export const demoQuestions = [
+  {
+    id: 1,
+    question: 'Ананары ул өйгә кайтты һәм әнисенә булышты?',
+    options: ['Ананары', 'Аны', 'Иртыш', 'Тары'],
+    correctIndex: 0,
+  },
+  {
+    id: 2,
+    question: 'Ананары иртә белән нишләде?',
+    options: ['Йоклады', 'Торды', 'Уйнады', 'Ашады'],
+    correctIndex: 1,
+  },
+  {
+    id: 3,
+    question: 'Ананары кич белән кем белән уйнады?',
+    options: ['Әнисе белән', 'Дуслары белән', 'Энесе белән', 'Абыйсы белән'],
+    correctIndex: 1,
+  },
+  {
+    id: 4,
+    question: 'Ананары нәрсә укыды?',
+    options: ['Гәзит', 'Журнал', 'Китап', 'Хат'],
+    correctIndex: 2,
+  },
+];
+
+export const demoWordCards = [
+  { id: 1, word: 'өй', translation: 'дом' },
+  { id: 2, word: 'әни', translation: 'мама' },
+  { id: 3, word: 'булышты', translation: 'помог' },
+  { id: 4, word: 'иртә', translation: 'утро' },
+  { id: 5, word: 'китап', translation: 'книга' },
+  { id: 6, word: 'дуслар', translation: 'друзья' },
+  { id: 7, word: 'урам', translation: 'улица' },
+];
+
+export const demoEssayTask = {
+  title: 'Сочинение дня',
+  description: 'Напиши 3–5 предложений о своём дне, используя выученные сегодня слова.',
+  requiredWords: ['өй', 'әни', 'китап', 'дуслар'],
+  minWords: 10,
+  maxWords: 100,
+};
+
+// ===== ПРОВЕРКА СОЧИНЕНИЯ (демо, позже заменим на ИИ) =====
+export function checkEssay(text) {
+  const lowerText = text.toLowerCase();
+  const usedWords = demoEssayTask.requiredWords.filter(w =>
+    lowerText.includes(w.toLowerCase())
+  );
+  const missingWords = demoEssayTask.requiredWords.filter(w =>
+    !lowerText.includes(w.toLowerCase())
+  );
+  const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+
+  let score = 0;
+  if (usedWords.length === demoEssayTask.requiredWords.length) score += 50;
+  else score += Math.round((usedWords.length / demoEssayTask.requiredWords.length) * 50);
+
+  if (wordCount >= demoEssayTask.minWords) score += 30;
+  else score += Math.round((wordCount / demoEssayTask.minWords) * 30);
+
+  if (wordCount <= demoEssayTask.maxWords) score += 20;
+
+  return {
+    score: Math.min(100, score),
+    usedWords,
+    missingWords,
+    wordCount,
+    feedback: getFeedback(score, usedWords.length, demoEssayTask.requiredWords.length),
+  };
+}
+
+function getFeedback(score, used, total) {
+  if (score >= 90) return 'Отличная работа! Все слова использованы, объём хороший.';
+  if (score >= 70) return 'Хорошо! Но можно использовать больше выученных слов.';
+  if (score >= 50) return `Неплохо. Использовано ${used} из ${total} обязательных слов.`;
+  return 'Попробуй ещё: используй больше выученных слов и увеличь объём.';
+}

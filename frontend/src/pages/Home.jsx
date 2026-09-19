@@ -18,16 +18,11 @@ export default function Home() {
       <header className="home-header">
         <div className="home-logo">Tatarby</div>
         <nav className="home-nav">
-          <button
-            className="home-profile-btn"
-            onClick={() => navigate('/profile')}
-          >
+          <button className="home-profile-btn" onClick={() => navigate('/profile')}>
             <span className="home-profile-avatar">
               {(user?.username || user?.email || '?')[0].toUpperCase()}
             </span>
-            <span className="home-profile-name">
-              {user?.username || user?.email}
-            </span>
+            <span className="home-profile-name">{user?.username || user?.email}</span>
           </button>
           <button className="home-btn-logout" onClick={handleLogout}>Выйти</button>
         </nav>
@@ -38,8 +33,8 @@ export default function Home() {
           <h1>С возвращением, {user?.username || 'гость'}</h1>
           <p>Продолжай учиться — ты на верном пути</p>
           <div className="home-hero-buttons">
-            <button className="home-btn-primary" onClick={() => navigate('/dashboard')}>
-              Продолжить обучение
+            <button className="home-btn-primary" onClick={() => navigate('/read')}>
+              Начать урок
             </button>
             <button className="home-btn-secondary" onClick={() => navigate('/profile')}>
               Мой профиль
@@ -47,6 +42,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Быстрая сводка */}
         <section className="home-quick-stats">
           <div className="quick-stat" onClick={() => navigate('/profile')}>
             <div className="quick-stat-value">{demoUserStats.current_streak}</div>
@@ -66,18 +62,30 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="home-features">
-          <div className="home-card" onClick={() => navigate('/profile')}>
-            <h3>Профиль</h3>
-            <p>Стрик, XP, аналитика и график активности за год</p>
-          </div>
-          <div className="home-card" onClick={() => navigate('/dashboard')}>
-            <h3>Уроки</h3>
-            <p>Продолжить обучение с того места, где остановился</p>
-          </div>
-          <div className="home-card">
-            <h3>Ежедневная цель</h3>
-            <p>Выполни 3 урока сегодня, чтобы продлить стрик</p>
+        {/* Модули обучения */}
+        <section className="home-modules">
+          <h2 className="home-modules-title">Модули обучения</h2>
+          <div className="home-features">
+            <div className="home-card" onClick={() => navigate('/read')}>
+              <h3>Чтение</h3>
+              <p>Прочитай текст и выучи новые слова</p>
+              <div className="home-card-tag">Текст дня</div>
+            </div>
+            <div className="home-card" onClick={() => navigate('/cards')}>
+              <h3>Карточки</h3>
+              <p>Запомни новые слова через флеш-карточки</p>
+              <div className="home-card-tag">7 слов</div>
+            </div>
+            <div className="home-card" onClick={() => navigate('/questions')}>
+              <h3>Вопросы</h3>
+              <p>Ответь на вопросы по тексту — проверит ИИ</p>
+              <div className="home-card-tag">4 вопроса</div>
+            </div>
+            <div className="home-card" onClick={() => navigate('/essay')}>
+              <h3>Сочинение</h3>
+              <p>Напиши текст, используя выученные слова</p>
+              <div className="home-card-tag">Задание дня</div>
+            </div>
           </div>
         </section>
       </main>
