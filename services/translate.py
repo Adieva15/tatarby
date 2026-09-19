@@ -2,7 +2,16 @@ import httpx
 import os
 from dotenv import load_dotenv
 
+
+load_dotenv()
+
+
 MT_URL = os.getenv("MT")
+print(f"[translate.py] MT_URL = {MT_URL}") 
+
+
+if not MT_URL:
+    raise RuntimeError("Переменная MT не задана в .env")
 
 async def translate(text: str, direction: str = "tat2rus") -> str:
     if not text or not text.strip():

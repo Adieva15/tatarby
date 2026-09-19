@@ -10,11 +10,25 @@ from utils import hashed_password, verify_password, decode_access_token, create_
 from routers.upload import router as upload_router
 from routers.translate import router as translate_router
 
+from pydantic import BaseModel, Field
+from huggingface_hub import AsyncInferenceClient
+
+import os 
 
 app = FastAPI()
 create_tables()
 app.include_router(upload_router)
 app.include_router(translate_router)
+
+HF_TOKEN = os.getenv("HF_TOKEN")
+client = AsyncInferenceClient(token=HF_TOKEN)
+
+class AdaptationRequest(BaseModel):
+    text: str = Field(..., description="Исходный текст для адаптации")
+    style: str = Field(..., description="Стиль: по-простому, поэтично, прозаично, академически")
+    age: str = Field(..., description="Возраст: ребенок, подросток, взрослый")
+    language_level: str = Field(..., description="Уровень: начинающий (A1-A2), средний (B1-B2), носитель (C1-C2)")
+
 
 
 @app.post("/api/register")
@@ -76,7 +90,7 @@ def refresh_session(response: Response, refresh_token: str | None = Cookie(defau
             detail="Попытка повторного использования токена! Доступ запрещён."
         )
 
-    # Удаляем использованный токен (он валидный, но больше не нужен)
+    # Удаляем использованный токен 
     redis.delete(red_key)
 
     access = create_access_token(user_id)
@@ -122,7 +136,7 @@ def logout(response: Response, refresh_token: str | None = Cookie(default=None, 
     response.delete_cookie(
         key="access_token", 
         httponly=True, 
-        secure=True,       # Обязательно True для HTTPS в продакшене
+        secure=True,       
         samesite="lax"
     )
     
@@ -132,7 +146,46 @@ def logout(response: Response, refresh_token: str | None = Cookie(default=None, 
         httponly=True, 
         secure=True, 
         samesite="lax",
-        path="/auth"  # Укажите path, если refresh-кука ставилась на конкретный эндпоинт
+        path="/auth"  
     )
     
     return {"status": "success", "message": "Logged out successfully"}
+
+
+# @app.post("/api/adapt")
+# async def adapt_text(request: AdaptationRequest):
+#     try:
+#         
+#         temperature = 0.7 if "поэтич" in request.style.lower() else 0.2
+#         response = await client.chat_completion(
+#             model="Qwen/Qwen2.5-72B-Instruct",
+#             messages=[
+#                 {
+#                     "role": "system",
+#                     "content": (
+#                         "Ты — профессиональный лингвистический агент-редактор. Твоя единственная задача — "
+#                         "переписать входной текст строго под заданные параметры стиля, возраста и уровня языка.\n\n"
+#                         "ПРАВИЛА:\n"
+#                         "- Выдавай ТОЛЬКО адаптированный текст.\n"
+#                         "- Никаких вводных слов, приветствий, пояснений или кавычек на выходе.\n"
+#                         "- Сохраняй исходный смысл на 100%, меняй только форму подачи."
+#                     )
+#                 },
+#                 {
+#                     "role": "user",
+#                     "content": f"Параметры адаптации:\n- Стиль: {request.style}\n- Возраст: {request.age}\n- Уровень языка: {request.language_level}\n\nИсходный текст: \"{request.text}\""
+#                 }
+#             ],
+#             max_tokens=1024,
+#             temperature=temperature
+#         )
+        
+#         # Извлекаем чистый текст из ответа ИИ
+#         adapted_text = response.choices[0].message.content.strip()
+#         return {"success": True, "adapted_text": adapted_text}
+
+#     except Exception as e:
+#         # Если Hugging Face вернул ошибку, корректно сообщаем об этом
+#         raise HTTPException(status_code=500, detail=f"Ошибка ИИ-агента: {str(e)}")
+
+
