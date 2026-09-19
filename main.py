@@ -253,7 +253,7 @@ def reset_level(user_id: int = Depends(get_current_user), db: Session = Depends(
 
 
 #начинание перевода с фотки и основной части с изображемнием и адаптированным текстом
-"""@app.post("/translate", response_model=OcrResponse)
+@app.post("/translate", response_model=OcrResponse)
 def ocr_endpoint(
     file: UploadFile = File(...),
     user_id: str = Depends(get_current_user),
@@ -279,5 +279,6 @@ def ocr_endpoint(
         text = ocr_image(str(saved_path))   
     except Exception as e:
         raise HTTPException(500, f"Ошибка OCR: {e}")
+    
 
-    """
+    
