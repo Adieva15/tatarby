@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { demoEssayTask, checkEssay } from '../data/demoStats';
+import Navigation from '../components/Navigation';
 import '../styles/learn.css';
 
 export default function Essay() {
@@ -12,7 +13,6 @@ export default function Essay() {
   const handleCheck = async () => {
     if (text.trim().length < 5) return;
     setChecking(true);
-    // Имитация запроса к ИИ
     await new Promise(r => setTimeout(r, 1200));
     setResult(checkEssay(text));
     setChecking(false);
@@ -25,15 +25,7 @@ export default function Essay() {
 
   return (
     <div className="learn-page">
-      <header className="learn-header">
-        <div className="learn-logo" onClick={() => navigate('/home')}>Tatarby</div>
-        <nav className="learn-nav">
-          <button className="learn-nav-item" onClick={() => navigate('/read')}>Читать</button>
-          <button className="learn-nav-item" onClick={() => navigate('/cards')}>Карточки</button>
-          <button className="learn-nav-item" onClick={() => navigate('/questions')}>Вопросы</button>
-          <button className="learn-nav-item" onClick={() => navigate('/profile')}>Профиль</button>
-        </nav>
-      </header>
+      <Navigation />
 
       <div className="essay-container">
         <h1 className="essay-title">{demoEssayTask.title}</h1>

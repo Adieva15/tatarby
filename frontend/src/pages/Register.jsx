@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import '../styles/auth.css';
 
 export default function Register() {
-  const [form, setForm] = useState({ username: '', email: '', password: '', password2: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', password2: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -20,7 +20,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await register(form.username, form.email, form.password);
+      await register(form.name, form.email, form.password);
       navigate('/home');
     } catch (err) {
       setError(err.response?.data?.message || 'Ошибка регистрации');
@@ -33,8 +33,8 @@ export default function Register() {
     <div className="auth-wrapper">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Регистрация</h2>
-        <input name="username" placeholder="Имя пользователя"
-          value={form.username} onChange={handleChange} required />
+        <input name="name" placeholder="Имя пользователя"
+          value={form.name} onChange={handleChange} required />
         <input name="email" type="email" placeholder="Email"
           value={form.email} onChange={handleChange} required />
         <input name="password" type="password" placeholder="Пароль"

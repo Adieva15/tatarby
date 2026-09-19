@@ -1,97 +1,171 @@
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { demoUserStats, getLevel } from '../data/demoStats';
+import Navigation from '../components/Navigation';
+import { OrnamentDot} from '../components/Ornament';
 import '../styles/home.css';
+import '../styles/ornament.css';
 
 export default function Home() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const level = getLevel(demoUserStats.total_xp);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
   return (
+    
     <div className="home-page">
-      <header className="home-header">
-        <div className="home-logo">Tatarby</div>
-        <nav className="home-nav">
-          <button className="home-profile-btn" onClick={() => navigate('/profile')}>
-            <span className="home-profile-avatar">
-              {(user?.username || user?.email || '?')[0].toUpperCase()}
-            </span>
-            <span className="home-profile-name">{user?.username || user?.email}</span>
-          </button>
-          <button className="home-btn-logout" onClick={handleLogout}>Выйти</button>
-        </nav>
-      </header>
+      <Navigation />
 
       <main className="home-main">
+        {/* HERO */}
         <section className="home-hero">
-          <h1>С возвращением, {user?.username || 'гость'}</h1>
-          <p>Продолжай учиться — ты на верном пути</p>
-          <div className="home-hero-buttons">
-            <button className="home-btn-primary" onClick={() => navigate('/read')}>
-              Начать урок
+          <div className="home-hero-marker">
+            <OrnamentDot size={16} color="#009B77" />
+            <span className="home-hero-marker-text">Татарский язык · Онлайн</span>
+          </div>
+
+          <h1 className="home-hero-title">
+            Нур
+          </h1>
+
+          <p className="home-hero-subtitle">
+            Адаптивное чтение · ИИ-проверка · Прогресс каждый день
+          </p>
+
+          <button className="home-hero-cta" onClick={() => navigate('/read')}>
+            Начать урок →
+          </button>
+        </section>
+
+        {/* СЕКЦИЯ С КРУЖКАМИ */}
+        <section className="home-dots-section">
+          <div className="home-dots-grid">
+            <div className="home-dot-item">
+              <OrnamentDot size={32} color="#009B77" />
+              <div className="home-dot-text">
+                Исәнме, {user?.username || 'гость'}!
+              </div>
+            </div>
+            <div className="home-dot-item">
+              <OrnamentDot size={32} color="#009B77" />
+              <div className="home-dot-text">
+                Уровень {level} · {demoUserStats.total_xp.toLocaleString('ru-RU')} XP
+              </div>
+            </div>
+            <div className="home-dot-item">
+              <OrnamentDot size={32} color="#009B77" />
+              <div className="home-dot-text">
+                {demoUserStats.current_streak} дней подряд
+              </div>
+            </div>
+            <div className="home-dot-item">
+              <OrnamentDot size={32} color="#009B77" />
+              <div className="home-dot-text">
+                {demoUserStats.total_words_learned} слов выучено
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* СЕТКА КАРТОЧЕК */}
+        <section className="home-cards-section">
+          <h2 className="home-cards-title">Модули обучения</h2>
+          <p className="home-cards-subtitle">Шесть инструментов для языка</p>
+
+          <div className="home-cards-grid">
+            <button className="home-card-frame" onClick={() => navigate('/read')}>
+              <div>
+                <div className="home-card-frame-title">Чтение</div>
+                <p className="home-card-frame-desc">
+                  Адаптивные тексты A1–B1. Сложные слова — по клику.
+                </p>
+              </div>
+              <span className="home-card-frame-tag">→ Текст дня</span>
             </button>
-            <button className="home-btn-secondary" onClick={() => navigate('/profile')}>
-              Мой профиль
+
+            <button className="home-card-frame" onClick={() => navigate('/cards')}>
+              <div>
+                <div className="home-card-frame-title">Карточки</div>
+                <p className="home-card-frame-desc">
+                  Флеш-карточки для запоминания новых слов.
+                </p>
+              </div>
+              <span className="home-card-frame-tag">→ 7 слов</span>
+            </button>
+
+            <button className="home-card-frame" onClick={() => navigate('/questions')}>
+              <div>
+                <div className="home-card-frame-title">Вопросы</div>
+                <p className="home-card-frame-desc">
+                  Проверь понимание текста. ИИ оценит ответы.
+                </p>
+              </div>
+              <span className="home-card-frame-tag">→ 4 вопроса</span>
+            </button>
+
+            <button className="home-card-frame" onClick={() => navigate('/essay')}>
+              <div>
+                <div className="home-card-frame-title">Сочинение</div>
+                <p className="home-card-frame-desc">
+                  Напиши текст с выученными словами. ИИ проверит.
+                </p>
+              </div>
+              <span className="home-card-frame-tag">→ Задание дня</span>
+            </button>
+
+            <button className="home-card-frame" onClick={() => navigate('/profile')}>
+              <div>
+                <div className="home-card-frame-title">Профиль</div>
+                <p className="home-card-frame-desc">
+                  Стрик, XP, достижения и график активности.
+                </p>
+              </div>
+              <span className="home-card-frame-tag">→ Статистика</span>
+            </button>
+
+            <button className="home-card-frame" onClick={() => navigate('/read')}>
+              <div>
+                <div className="home-card-frame-title">Загрузить текст</div>
+                <p className="home-card-frame-desc">
+                  Фото, PDF или вручную — добавь свой текст.
+                </p>
+              </div>
+              <span className="home-card-frame-tag">→ Импорт</span>
             </button>
           </div>
         </section>
 
-        {/* Быстрая сводка */}
-        <section className="home-quick-stats">
-          <div className="quick-stat" onClick={() => navigate('/profile')}>
-            <div className="quick-stat-value">{demoUserStats.current_streak}</div>
-            <div className="quick-stat-label">Дней подряд</div>
-          </div>
-          <div className="quick-stat" onClick={() => navigate('/profile')}>
-            <div className="quick-stat-value">{demoUserStats.total_xp.toLocaleString('ru-RU')}</div>
-            <div className="quick-stat-label">XP</div>
-          </div>
-          <div className="quick-stat" onClick={() => navigate('/profile')}>
-            <div className="quick-stat-value">{level}</div>
-            <div className="quick-stat-label">Уровень</div>
-          </div>
-          <div className="quick-stat" onClick={() => navigate('/profile')}>
-            <div className="quick-stat-value">{demoUserStats.total_words_learned}</div>
-            <div className="quick-stat-label">Слов</div>
-          </div>
-        </section>
-
-        {/* Модули обучения */}
-        <section className="home-modules">
-          <h2 className="home-modules-title">Модули обучения</h2>
-          <div className="home-features">
-            <div className="home-card" onClick={() => navigate('/read')}>
-              <h3>Чтение</h3>
-              <p>Прочитай текст и выучи новые слова</p>
-              <div className="home-card-tag">Текст дня</div>
+        {/* ПРОДОЛЖИТЬ ЧТЕНИЕ */}
+        <section className="home-continue-section">
+          <div className="home-continue-label">Продолжить чтение</div>
+          <div className="home-continue-card">
+            <div className="home-continue-content">
+              <div className="home-continue-badge">Уровень A2</div>
+              <h3 className="home-continue-title">Шүрәле — Габдулла Тукай</h3>
+              <p className="home-continue-desc">
+                Ты остановился на середине. Осталось ~4 минуты.
+              </p>
+              <div className="home-continue-progress">
+                <div className="home-continue-progress-header">
+                  <span>Прочитано</span>
+                  <span>60%</span>
+                </div>
+                <div className="home-continue-progress-bar">
+                  <div className="home-continue-progress-fill" style={{ width: '60%' }} />
+                </div>
+              </div>
             </div>
-            <div className="home-card" onClick={() => navigate('/cards')}>
-              <h3>Карточки</h3>
-              <p>Запомни новые слова через флеш-карточки</p>
-              <div className="home-card-tag">7 слов</div>
-            </div>
-            <div className="home-card" onClick={() => navigate('/questions')}>
-              <h3>Вопросы</h3>
-              <p>Ответь на вопросы по тексту — проверит ИИ</p>
-              <div className="home-card-tag">4 вопроса</div>
-            </div>
-            <div className="home-card" onClick={() => navigate('/essay')}>
-              <h3>Сочинение</h3>
-              <p>Напиши текст, используя выученные слова</p>
-              <div className="home-card-tag">Задание дня</div>
-            </div>
+            <button className="home-continue-btn" onClick={() => navigate('/read')}>
+              Продолжить
+            </button>
           </div>
         </section>
       </main>
 
       <footer className="home-footer">
-        <p>© 2026 Tatarby</p>
+        <p className="home-footer-text">
+          Нур — <em>свет знаний</em> на твоём пути
+        </p>
       </footer>
     </div>
   );

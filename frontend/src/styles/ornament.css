@@ -1,0 +1,16 @@
+/* ===== Кружок-маркер ===== */
+.ornament-dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.page-with-bars::before { left: 0; }
+.page-with-bars::after { right: 0; }
+
+/* Контент между полосами */
+.page-with-bars > * {
+  position: relative;
+  z-index: 3;
+}

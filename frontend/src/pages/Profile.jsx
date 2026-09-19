@@ -5,40 +5,35 @@ import ActivityHeatmap from '../components/ActivityHeatmap';
 import XpChart from '../components/XpChart';
 import Analytics from '../components/Analytics';
 import Achievements from '../components/Achievements';
-import '../styles/home.css';
+import Navigation from '../components/Navigation';
+import { demoUserStats, getLevel } from '../data/demoStats';
+import '../styles/profile.css';
 import '../styles/stats.css';
 
 export default function Profile() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const level = getLevel(demoUserStats.total_xp);
 
   return (
-    <div className="home-page">
-      <header className="home-header">
-        <div className="home-logo" onClick={() => navigate('/home')} style={{ cursor: 'pointer' }}>
-          Tatarby
-        </div>
-        <nav className="home-nav">
-          <button className="home-btn-back" onClick={() => navigate('/home')}>
-            На главную
-          </button>
-          <button className="home-btn-logout" onClick={handleLogout}>Выйти</button>
-        </nav>
-      </header>
+    <div className="profile-page">
+      <Navigation />
 
-      <main className="home-main">
+      <main className="profile-main">
         <section className="profile-header">
           <div className="profile-avatar">
             {(user?.username || user?.email || '?')[0].toUpperCase()}
           </div>
           <div className="profile-info">
-            <h1>{user?.username || 'Пользователь'}</h1>
-            <p>{user?.email}</p>
+            <h1 className="profile-name">{user?.username || 'Пользователь'}</h1>
+            <p className="profile-email">{user?.email}</p>
+            <div className="profile-meta">
+              <span>Уровень {level}</span>
+              <span>·</span>
+              <span>{demoUserStats.total_xp.toLocaleString('ru-RU')} XP</span>
+              <span>·</span>
+              <span>С нами с {new Date(demoUserStats.member_since).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })}</span>
+            </div>
           </div>
         </section>
 
@@ -50,7 +45,9 @@ export default function Profile() {
       </main>
 
       <footer className="home-footer">
-        <p>© 2026 Tatarby. Профиль пользователя.</p>
+        <p className="home-footer-text">
+          Нур — <em>свет знаний</em> на твоём пути
+        </p>
       </footer>
     </div>
   );

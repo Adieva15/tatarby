@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { demoWordCards } from '../data/demoStats';
+import Navigation from '../components/Navigation';
 import '../styles/learn.css';
 
 export default function Cards() {
@@ -22,7 +23,6 @@ export default function Cards() {
     if (index + 1 < demoWordCards.length) {
       setIndex(index + 1);
     } else {
-      // Завершено
       setIndex(demoWordCards.length);
     }
   };
@@ -30,15 +30,7 @@ export default function Cards() {
   if (index >= demoWordCards.length) {
     return (
       <div className="learn-page">
-        <header className="learn-header">
-          <div className="learn-logo" onClick={() => navigate('/home')}>Tatarby</div>
-          <nav className="learn-nav">
-            <button className="learn-nav-item" onClick={() => navigate('/read')}>Читать</button>
-            <button className="learn-nav-item active">Карточки</button>
-            <button className="learn-nav-item" onClick={() => navigate('/questions')}>Вопросы</button>
-            <button className="learn-nav-item" onClick={() => navigate('/profile')}>Профиль</button>
-          </nav>
-        </header>
+        <Navigation />
 
         <div className="learn-result">
           <h1>Карточки пройдены</h1>
@@ -63,15 +55,7 @@ export default function Cards() {
 
   return (
     <div className="learn-page">
-      <header className="learn-header">
-        <div className="learn-logo" onClick={() => navigate('/home')}>Tatarby</div>
-        <nav className="learn-nav">
-          <button className="learn-nav-item" onClick={() => navigate('/read')}>Читать</button>
-          <button className="learn-nav-item active">Карточки</button>
-          <button className="learn-nav-item" onClick={() => navigate('/questions')}>Вопросы</button>
-          <button className="learn-nav-item" onClick={() => navigate('/profile')}>Профиль</button>
-        </nav>
-      </header>
+      <Navigation />
 
       <div className="learn-progress-bar">
         <div className="learn-progress-fill" style={{ width: `${progress}%` }} />

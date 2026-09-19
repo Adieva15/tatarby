@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { demoQuestions, demoReadingText } from '../data/demoStats';
+import { demoQuestions } from '../data/demoStats';
 import QuestionCard from '../components/QuestionCard';
+import Navigation from '../components/Navigation';
 import '../styles/learn.css';
 
 export default function Questions() {
@@ -24,6 +25,8 @@ export default function Questions() {
     const percent = Math.round((correctCount / demoQuestions.length) * 100);
     return (
       <div className="learn-page">
+        <Navigation />
+
         <div className="learn-result">
           <h1>Вопросы завершены</h1>
           <div className="result-score">{percent}%</div>
@@ -45,22 +48,12 @@ export default function Questions() {
 
   return (
     <div className="learn-page">
-      <header className="learn-header">
-        <div className="learn-logo" onClick={() => navigate('/home')}>
-          Tatarby
-        </div>
-        <nav className="learn-nav">
-          <button className="learn-nav-item" onClick={() => navigate('/read')}>Читать</button>
-          <button className="learn-nav-item" onClick={() => navigate('/cards')}>Карточки</button>
-          <button className="learn-nav-item active">Вопросы</button>
-          <button className="learn-nav-item" onClick={() => navigate('/profile')}>Профиль</button>
-        </nav>
-      </header>
+      <Navigation />
 
       <div className="learn-progress-bar">
         <div
           className="learn-progress-fill"
-          style={{ width: `${((current) / demoQuestions.length) * 100}%` }}
+          style={{ width: `${(current / demoQuestions.length) * 100}%` }}
         />
       </div>
 

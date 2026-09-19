@@ -600,3 +600,46 @@
   .result-score,
   .essay-score { font-size: 48px; }
 }
+/* ===== Уровни в чтении ===== */
+.read-levels {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #F0EBE0;
+}
+
+.read-levels-label {
+  font-size: 13px;
+  color: #7A7062;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 8px;
+}
+
+.read-level-btn {
+  padding: 8px 20px;
+  background: #fff;
+  border: 1.5px solid #E0D8C5;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  color: #7A7062;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+
+.read-level-btn:hover {
+  border-color: #009B77;
+  color: #009B77;
+}
+
+.read-level-btn.active {
+  background: #009B77;
+  color: #fff;
+  border-color: #009B77;
+}
