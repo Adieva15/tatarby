@@ -1,0 +1,69 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: tatar_front
+    depends_on:
+      - app
+    restart: always
+    ports:
+      - "4173:4173"
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: tatar_bd
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: my-redis-tatarby
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass "mypassword"
+    volumes:
+      - redis_data:/data
+
+  app:
+    build: ./backend
+    container_name: tatar_app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      MORPH_API_URL: "https://tugantel.tatar/new2022/morph?json=data"
+      DATABASE_URL: postgresql://myuser:password@postgres:5432/mydb
+      REDIS_URL: redis://:mypassword@redis:6379/0
+      SECRET_KEY: super-secret-and-very-long-key-for-jwt-signing
+      MT: https://v2.api.translate.tatar/listening/
+      ALGORITHM: HS256
+      OPENAI_BASE_URL: https://openai.bothub.chat/v1
+      OPENAI_API_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE4YTIzMjU5LTE2Y2QtNGQ2YS04MWI0LTEwMWM3NThlNDI2MCIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3ODk4MDYxMjUsImV4cCI6MjEwNTM4MjEyNSwianRpIjoiSTBacUpnQkZLWjgzaWlnWSJ9.OZ0j83J1-E-kIpKLbECax29sWvolaZxkMqXCu92SsMk
+      ACCESS_TOKEN_EXPIRE_MINUTE: 30
+      REFRESH_TOKEN_EXPIRE_DAYS: 7
+
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/static/uploads:/app/static/uploads
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:
+  redis_data:

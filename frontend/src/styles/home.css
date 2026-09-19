@@ -1,0 +1,333 @@
+/* ============================================
+   ГЛАВНАЯ — Нур
+   ============================================ */
+
+.home-page {
+  min-height: 100vh;
+  background: transparent;   /* ← прозрачный, чтобы фон был виден */
+  display: flex;
+  flex-direction: column;
+}
+
+.home-main {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 40px 100px;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.home-hero {
+  padding: 100px 0 80px;
+}
+
+.home-hero-marker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.home-hero-marker-text {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #009B77;
+  font-weight: 600;
+}
+
+.home-hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(72px, 12vw, 160px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -4px;
+  color: #1A1A1A;
+  margin-bottom: 48px;
+}
+
+.home-hero-title em {
+  font-style: italic;
+  color: #009B77;
+}
+
+.home-hero-subtitle {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+  color: #7A7062;
+  margin-bottom: 56px;
+  line-height: 2;
+  max-width: 600px;
+}
+
+.home-hero-cta {
+  display: inline-block;
+  padding: 20px 52px;
+  background: #C8102E;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.home-hero-cta:hover {
+  background: #A00D25;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   СЕКЦИЯ С КРУЖКАМИ
+   ============================================ */
+.home-dots-section {
+  padding: 80px 0;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.home-dots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 64px 80px;
+  align-items: center;
+}
+
+.home-dot-item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+-dot-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: #1A1A1A;
+  letter-spacing: -0.5px;
+}
+
+/* ============================================
+   СЕТКА КАРТОЧЕК — зелёные рамки
+   ============================================ */
+.home-cards-section {
+  padding: 100px 0;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.home-cards-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 500;
+  color: #1A1A1A;
+  margin-bottom: 20px;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.home-cards-subtitle {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #000000;
+  margin-bottom: 64px;
+}
+
+.home-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.home-card-frame {
+  border: 2px solid #009B77;
+  border-radius: 16px;
+  padding: 36px 28px;
+  background: #f4ecda;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  justify-content: space-between;
+}
+
+.home-card-frame:hover {
+  background: #e0dec6;
+  transform: translateY(-4px);
+}
+
+.home-card-frame-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+
+.home-card-frame-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #7A7062;
+}
+
+.home-card-frame-tag {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #009B77;
+  font-weight: 700;
+}
+
+/* ============================================
+   ПРОДОЛЖИТЬ ЧТЕНИЕ
+   ============================================ */
+.home-continue-section {
+  padding: 80px 0;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.home-continue-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #000000;
+  margin-bottom: 28px;
+  font-weight: 600;
+}
+
+.home-continue-card {
+  background: #fff;
+  border-left: 5px solid #009B77;
+  padding: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 48px;
+}
+
+.home-continue-content { flex: 1; }
+
+.home-continue-badge {
+  display: inline-block;
+  background: #009B77;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 2px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.home-continue-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 38px;
+  font-weight: 500;
+  color: #1A1A1A;
+  margin-bottom: 14px;
+  letter-spacing: -0.8px;
+}
+
+.home-continue-desc {
+  font-size: 16px;
+  color: #7A7062;
+  margin-bottom: 28px;
+}
+
+.home-continue-progress {
+  max-width: 380px;
+}
+
+.home-continue-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #7A7062;
+  margin-bottom: 10px;
+}
+
+.home-continue-progress-bar {
+  height: 3px;
+  background: rgba(26, 26, 26, 0.1);
+}
+
+.home-continue-progress-fill {
+  height: 100%;
+  background: #009B77;
+  transition: width 0.5s ease;
+}
+
+.home-continue-btn {
+  padding: 20px 48px;
+  background: #1A1A1A;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.home-continue-btn:hover {
+  background: #009B77;
+}
+
+/* ============================================
+   ПОДВАЛ
+   ============================================ */
+.home-footer {
+  background: #1A1A1A;
+  color: #F5F1E8;
+  padding: 40px 40px;
+  text-align: center;
+}
+
+.home-footer-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+
+.home-footer-text em {
+  font-style: italic;
+  color: #D4A017;
+}
+
+/* ============================================
+   Адаптив
+   ============================================ */
+@media (max-width: 900px) {
+  .home-main { padding: 0 24px 60px; }
+  .home-dots-grid { grid-template-columns: 1fr; gap: 32px; }
+  .home-dot-item:nth-child(n) { transform: none; }
+  .home-dot-text { font-size: 20px; }
+  .home-cards-grid { grid-template-columns: 1fr; }
+  .home-continue-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 32px 24px;
+  }
+  .home-continue-btn { width: 100%; }
+}

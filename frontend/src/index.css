@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  color: #1A1A1A;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+
+  background-color: #F5F1E8;
+  background-image: url('../images/bg-pattern.jpg');
+  background-size: 60%;
+  background-position: center;
+  background-repeat: repeat;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+button {
+  font-family: inherit;
+}

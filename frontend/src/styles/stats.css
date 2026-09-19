@@ -1,0 +1,387 @@
+/* ============================================
+   Палитра:
+   #009B77 — изумрудный (основной)
+   #007A5E — тёмно-зелёный
+   #D4A017 — золотой
+   #C8102E — красный
+   #F5F1E8 — кремовый
+   #1A1A1A — тёмный
+   #EBEDF0 — светло-серый (для heatmap)
+   ============================================ */
+
+/* ===== Панель статистики ===== */
+.stats-panel {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stats-card {
+  background: #fff;
+  padding: 22px;
+  border-radius: 12px;
+  border: 1px solid #E8E2D5;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stats-card:hover {
+  border-color: #009B77;
+  box-shadow: 0 4px 20px rgba(0, 155, 119, 0.08);
+}
+
+.stats-card-header {
+  margin-bottom: 12px;
+}
+
+.stats-label {
+  font-size: 12px;
+  color: #7A7062;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+.stats-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-sub {
+  font-size: 13px;
+  color: #9A9080;
+}
+
+.stats-card-xp {
+  background: linear-gradient(135deg, #009B77 0%, #007A5E 100%);
+  border: none;
+  color: #fff;
+}
+
+.stats-card-xp .stats-label,
+.stats-card-xp .stats-value,
+.stats-card-xp .xp-bar-label {
+  color: #fff;
+}
+
+.xp-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 12px 0 8px;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: #D4A017;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.xp-bar-label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.stats-card-streak .stats-value { color: #C8102E; }
+.stats-card-lessons .stats-value { color: #009B77; }
+.stats-card-words .stats-value { color: #D4A017; }
+
+/* ============================================
+   HEATMAP — 365 дней, 2 цвета
+   ============================================ */
+.activity-heatmap,
+.xp-chart {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #E8E2D5;
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+
+.activity-header {
+  margin-bottom: 20px;
+}
+
+.activity-header h3 {
+  font-size: 18px;
+  color: #1A1A1A;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.activity-subtitle {
+  font-size: 13px;
+  color: #7A7062;
+}
+
+.heatmap-container {
+  min-width: 780px;
+}
+
+.heatmap-months {
+  display: grid;
+  grid-template-columns: repeat(53, 12px);
+  gap: 3px;
+  margin-left: 32px;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: #7A7062;
+}
+
+.heatmap-month-label {
+  white-space: nowrap;
+}
+
+.heatmap-grid-wrapper {
+  display: flex;
+  gap: 6px;
+}
+
+.heatmap-days {
+  display: grid;
+  grid-template-rows: repeat(7, 12px);
+  gap: 3px;
+  font-size: 10px;
+  color: #7A7062;
+  width: 26px;
+  align-items: center;
+}
+
+.heatmap-days span {
+  line-height: 12px;
+}
+
+.heatmap-grid {
+  display: flex;
+  gap: 3px;
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.heatmap-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: #EBEDF0;
+  cursor: pointer;
+  transition: outline 0.1s;
+}
+
+.heatmap-cell-active {
+  background: #009B77;
+}
+
+.heatmap-cell:hover {
+  outline: 1px solid #1A1A1A;
+  outline-offset: 1px;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #7A7062;
+}
+
+.heatmap-legend .heatmap-cell {
+  cursor: default;
+}
+
+.heatmap-legend .heatmap-cell:hover {
+  outline: none;
+}
+
+/* ============================================
+   XP-график (SVG)
+   ============================================ */
+.xp-chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================
+   Аналитика
+   ============================================ */
+.analytics {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #E8E2D5;
+  margin-bottom: 32px;
+}
+
+.analytics-header {
+  margin-bottom: 20px;
+}
+
+.analytics-header h3 {
+  font-size: 18px;
+  color: #1A1A1A;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.analytics-subtitle {
+  font-size: 13px;
+  color: #7A7062;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.analytics-card {
+  padding: 18px;
+  background: #FAFAF7;
+  border-radius: 10px;
+  border: 1px solid #F0EBE0;
+}
+
+.analytics-label {
+  font-size: 12px;
+  color: #7A7062;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.analytics-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.analytics-value-small {
+  font-size: 20px;
+}
+
+.analytics-sub {
+  font-size: 12px;
+  color: #9A9080;
+  margin-bottom: 12px;
+}
+
+.analytics-bar {
+  height: 6px;
+  background: #EBEDF0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.analytics-bar-fill {
+  height: 100%;
+  background: #009B77;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* ============================================
+   Достижения
+   ============================================ */
+.achievements {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #E8E2D5;
+  margin-bottom: 32px;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.achievement {
+  padding: 16px;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.achievement-unlocked {
+  background: #FFF8E1;
+  border: 1px solid #D4A017;
+}
+
+.achievement-locked {
+  background: #F5F1E8;
+  border: 1px dashed #D5CDB8;
+  opacity: 0.6;
+}
+
+.achievement:hover {
+  transform: translateY(-2px);
+}
+
+.achievement-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 12px;
+  color: #7A7062;
+  margin-bottom: 8px;
+}
+
+.achievement-status {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: #9A9080;
+}
+
+.achievement-unlocked .achievement-status {
+  color: #D4A017;
+}
+
+/* ============================================
+   Адаптив
+   ============================================ */
+@media (max-width: 900px) {
+  .stats-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats-card-xp {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-panel {
+    grid-template-columns: 1fr;
+  }
+  .stats-card-xp {
+    grid-column: span 1;
+  }
+  .activity-heatmap,
+  .xp-chart,
+  .analytics,
+  .achievements {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,183 @@
+/* ===== Навигация ===== */
+.nav-header {
+  background: #F5F1E8;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 100px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+/* Логотип */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.nav-logo-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #009B77;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.nav-logo-mark::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: #D4A017;
+}
+
+.nav-logo-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1A1A1A;
+  letter-spacing: -0.5px;
+}
+
+/* Меню */
+.nav-menu {
+  display: flex;
+  gap: 36px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  position: relative;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4A4438;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #009B77;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #009B77;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link-active {
+  color: #C8102E;
+}
+
+.nav-link-active::after {
+  background: #C8102E;
+  transform: scaleX(1);
+}
+
+/* Действия */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.nav-profile:hover {
+  opacity: 0.7;
+}
+
+.nav-profile-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #009B77;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.nav-profile-name {
+  font-size: 14px;
+  color: #1A1A1A;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-logout {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  color: #C8102E;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.nav-logout:hover {
+  opacity: 0.6;
+}
+
+/* Адаптив */
+@media (max-width: 1100px) {
+  .nav-container { padding: 0 40px; }
+}
+
+@media (max-width: 900px) {
+  .nav-container { padding: 0 24px; height: 72px; }
+  .nav-menu { display: none; }
+  .nav-profile-name { display: none; }
+  .nav-logo-text { font-size: 20px; }
+}
