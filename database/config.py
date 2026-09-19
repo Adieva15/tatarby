@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 import redis
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "postgresql://myuser:password@localhost:5433/mydb"
+DATABASE_URL = "postgresql://myuser:password@postgres:5432/mydb"
 
 
 engine = create_engine(DATABASE_URL)
@@ -24,9 +24,7 @@ def create_tables():
 
 # redis
 
-r = client = redis.Redis(host='localhost', port=6379, decode_responses=True, password="mypassword")
-
-print("Подключение успешно:", r.ping())
+r = client = redis.Redis(host='redis', port=6379, decode_responses=True, password="mypassword")
 
 def get_redis():
     return r
